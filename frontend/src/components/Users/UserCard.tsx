@@ -7,14 +7,16 @@ export const UserCard: FC<{ user: User }> = ({ user }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <Link to={`/profile/${user.id}`}>
-      <div className="bg-white h-full cursor-pointer flex-auto max-w-lg rounded-lg shadow-md shadow-gray-300 flex flex-col justify-between items-center hover:scale-105 transition duration-300">
+    <div className="bg-white h-full cursor-pointer flex-auto max-w-lg rounded-lg shadow-md shadow-gray-300 flex flex-col justify-between items-center hover:scale-105 transition duration-300">
+      <Link to={`/profile/${user.id}`} className="w-full">
         <img
           src={user.photos?.[0]}
           alt={user.firstName}
           className="w-full h-40 rounded-t-md"
         />
-        <div className="px-4 pt-2 space-y-4 pb-4 w-full">
+      </Link>
+      <div className="px-4 pt-2 space-y-4 pb-4 w-full">
+        <Link to={`/profile/${user.id}`}>
           <div className="flex w-full justify-start">
             <div>
               <h2 className="text-2xl font-bold text-black">
@@ -26,31 +28,31 @@ export const UserCard: FC<{ user: User }> = ({ user }) => {
               </p>
             </div>
           </div>
-          <div
-            className="flex gap-2 w-full justify-between"
-            onClick={(e) => e.stopPropagation()}
+        </Link>
+        <div
+          className="flex gap-2 w-full justify-between"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            className={`p-2 rounded-full transition duration-300 border-2 border-black hover:border-gray-800 ${
+              isFavorite
+                ? "bg-black text-rose-400 hover:bg-gray-800"
+                : "bg-white"
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsFavorite(!isFavorite);
+            }}
           >
-            <button
-              className={`p-2 rounded-full transition duration-300 border-2 border-black hover:border-gray-800 ${
-                isFavorite
-                  ? "bg-black text-rose-400 hover:bg-gray-800"
-                  : "bg-white"
-              }`}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsFavorite(!isFavorite);
-              }}
-            >
-              <HeartIcon className="h-6 w-6" />
+            <HeartIcon className="h-6 w-6" />
+          </button>
+          <Link to={`/messages/new?to=${user.id}`} prefetch="viewport">
+            <button className="p-2 rounded-full transition duration-300 border-2 border-black hover:border-gray-800 bg-white">
+              <ChatBubbleLeftRightIcon className="h-6 w-6 text-black" />
             </button>
-            <Link to={`/messages/new?to=${user.id}`}>
-              <button className="p-2 rounded-full transition duration-300 border-2 border-black hover:border-gray-800 bg-white">
-                <ChatBubbleLeftRightIcon className="h-6 w-6 text-black" />
-              </button>
-            </Link>
-          </div>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
