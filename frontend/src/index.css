@@ -15,3 +15,8 @@ main {
   display: flex;
   flex-direction: column;
 }
+
+*, *::before, *::after { 
+  min-height: 0;
+  min-width: 0;
+}
